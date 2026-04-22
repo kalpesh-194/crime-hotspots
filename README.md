@@ -1,3 +1,6 @@
+# Crime Hotspots
+
+A Python-based application to analyze and visualize crime hotspots using data analytics and mapping techniques.<<<<<<< HEAD
 # CrimeLens India — Backend Setup Guide
 
 A Flask + pyodbc backend that connects your SQL Server (SSMS) database
@@ -226,3 +229,7 @@ Your existing table must have AT MINIMUM these columns
 | severity | TEXT/NVARCHAR | 'HIGH' / 'MEDIUM' / 'LOW' |
 
 Optional but used: `crime_count` (INT)
+=======
+# crime-hotspots
+A Python-based application to analyze and visualize crime hotspots using data analytics and mapping techniques.
+>>>>>>> 309bb98330d23fe11eb7301f15b4dece40c76e92
