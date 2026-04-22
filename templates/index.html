@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CrimeLens India 2013</title>
+  <link rel="stylesheet" href="../static/style.css">
+</head>
+
+<body>
+
+<canvas id="canvas"></canvas>
+
+<!-- PAGE 1: Landing -->
+<div class="page active" id="p1">
+  <div class="india-glow"></div>
+  <div class="badge">⚡ Crime Safety Intelligence Platform</div>
+  <h1 class="hero">Know Your Area.<br><span>Stay Safe.</span></h1>
+  <p class="hero-sub">India's first interactive crime analysis dashboard — powered by IPC & women safety data.</p>
+
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-num">28+</div><div class="hstat-label">States Covered</div></div>
+    <div class="hstat"><div class="hstat-num">640+</div><div class="hstat-label">Districts</div></div>
+    <div class="hstat"><div class="hstat-num">15+</div><div class="hstat-label">Crime Types</div></div>
+    <div class="hstat"><div class="hstat-num">2013</div><div class="hstat-label">Dataset Year</div></div>
+  </div>
+
+  <button class="cta-btn" onclick="showPage(2)">▶ &nbsp;Launch Dashboard</button>
+</div>
+
+<!-- PAGE 2: Dashboard -->
+<div class="page" id="p2">
+
+  <div class="p2-header">
+    <div class="logo">CRIME<span>LENS</span>
+        <span style="font-size:11px;color:var(--dim)">INDIA 2013</span>
+    </div>
+
+    <button class="back-btn" onclick="showPage(1)">← Home</button>
+  </div>
+
+  <div class="p2-body">
+
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+
+      <!-- Crime Type Selector -->
+      <div class="panel-card">
+        <div class="panel-title">Step 1 · Crime Type</div>
+
+        <div class="crime-pills" id="crime-pills">
+          <div class="cpill active" data-crime="Murder" onclick="selectCrime(this)">Murder</div>
+          <div class="cpill" data-crime="Rape" onclick="selectCrime(this)">Rape</div>
+          <div class="cpill" data-crime="Robbery" onclick="selectCrime(this)">Robbery</div>
+          <div class="cpill" data-crime="Kidnapping" onclick="selectCrime(this)">Kidnapping</div>
+          <div class="cpill" data-crime="Assault on Women" onclick="selectCrime(this)">Assault on Women</div>
+          <div class="cpill" data-crime="Dowry Deaths" onclick="selectCrime(this)">Dowry Deaths</div>
+          <div class="cpill" data-crime="Burglary" onclick="selectCrime(this)">Burglary</div>
+          <div class="cpill" data-crime="Theft" onclick="selectCrime(this)">Theft</div>
+          <div class="cpill" data-crime="Riots" onclick="selectCrime(this)">Riots</div>
+          <div class="cpill" data-crime="Dacoity" onclick="selectCrime(this)">Dacoity</div>
+        </div>
+      </div>
+
+      <!-- Location Selector -->
+      <div class="panel-card">
+        <div class="panel-title">Step 2 · Location</div>
+
+        <div class="select-group">
+          <div>
+            <div class="sel-label">State</div>
+            <select id="state-sel" onchange="onStateChange()">
+              <option value="">— Select State —</option>
+            </select>
+          </div>
+
+          <div>
+            <div class="sel-label">District</div>
+            <select id="district-sel" onchange="compute()">
+              <option value="">— Select District —</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Safety Score -->
+      <div class="panel-card" id="score-panel" style="display:none">
+        <div class="panel-title">Safety Score</div>
+
+        <div class="score-wrap">
+          <div class="ring-container">
+            <svg width="120" height="120">
+              <circle class="ring-bg" cx="60" cy="60" r="50"/>
+              <circle id="ring" class="ring-fill" cx="60" cy="60" r="50"
+                      stroke-dasharray="314" stroke-dashoffset="314"/>
+            </svg>
+
+            <div class="score-center">
+              <div class="score-num" id="score-num">--</div>
+              <div class="score-pct">/100</div>
+            </div>
+          </div>
+
+          <div class="safety-label" id="safety-label">--</div>
+          <div class="sev-badge" id="sev-badge">--</div>
+        </div>
+      </div>
+
+      <!-- Probability -->
+      <div class="panel-card" id="prob-panel" style="display:none">
+        <div class="panel-title">Risk Probability</div>
+        <div class="prob-items" id="prob-grid"></div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel" id="right-panel">
+      <div class="panel-card" style="padding:0">
+        <div class="placeholder">
+          <div class="ph-icon">🔍</div>
+          <div class="ph-text">Select crime type, state, and district to see insights</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="/static/script.js"></script>
+
+</body>
+</html>
