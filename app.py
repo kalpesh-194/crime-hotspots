@@ -5,15 +5,15 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# ✅ SQL CONNECTION (YOUR SERVER)
-conn = pyodbc.connect(
-    "DRIVER={ODBC Driver 17 for SQL Server};"
-    "SERVER=LAPTOP-L5A5DAUK\\SQLEXPRESS;"
-    "DATABASE=crime_db;"
-    "Trusted_Connection=yes;"
-)
-cursor = conn.cursor()
 
+# ---------------- DB CONNECTION ----------------
+def get_db_connection():
+    return pyodbc.connect(
+        "DRIVER={ODBC Driver 17 for SQL Server};"
+        "SERVER=LAPTOP-L5A5DAUK\\SQLEXPRESS;"   # 👈 THEIR server
+        "DATABASE=crime_db;"
+        "Trusted_Connection=yes;"
+    )
 
 # ---------------- HOME PAGE ----------------
 @app.route("/")
@@ -24,19 +24,35 @@ def home():
 # ---------------- STATES ----------------
 @app.route("/api/states")
 def states():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
     cursor.execute("SELECT DISTINCT state FROM crimes ORDER BY state")
-    return jsonify([row[0] for row in cursor.fetchall()])
+
+    data = [row[0] for row in cursor.fetchall()]
+
+    conn.close()
+    return jsonify(data)
 
 
 # ---------------- DISTRICTS ----------------
 @app.route("/api/districts")
 def districts():
     state = request.args.get("state")
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # ✅ case-insensitive match
     cursor.execute(
-        "SELECT DISTINCT district FROM crimes WHERE state=? ORDER BY district",
+        "SELECT DISTINCT district FROM crimes WHERE LOWER(state)=LOWER(?) ORDER BY district",
         state
     )
-    return jsonify([row[0] for row in cursor.fetchall()])
+
+    data = [row[0] for row in cursor.fetchall()]
+
+    conn.close()
+    return jsonify(data)
 
 
 # ---------------- CRIME DATA ----------------
@@ -46,18 +62,30 @@ def crime():
     district = request.args.get("district")
     crime_type = request.args.get("type")
 
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # ✅ FULLY case-insensitive query
     cursor.execute(
-        "SELECT cases, severity FROM crimes WHERE state=? AND district=? AND crime_type=?",
+        """
+        SELECT cases, severity 
+        FROM crimes 
+        WHERE LOWER(state)=LOWER(?) 
+        AND LOWER(district)=LOWER(?) 
+        AND LOWER(crime_type)=LOWER(?)
+        """,
         state, district, crime_type
     )
 
     row = cursor.fetchone()
+    conn.close()
 
     if not row:
         return jsonify({"error": "No data"}), 404
 
     cases, severity = row
 
+    # ✅ compute values (since DB doesn't have these columns)
     crime_rate = min(100, max(5, cases // 2))
     safety_score = 100 - crime_rate
 
@@ -69,5 +97,6 @@ def crime():
     })
 
 
+# ---------------- RUN APP ----------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
