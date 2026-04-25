@@ -170,82 +170,153 @@ body {
 /* -----------------------------------------------------------
    BODY LAYOUT
 ----------------------------------------------------------- */
+/* -----------------------------------------------------------
+   BODY LAYOUT — Upgraded Neon Cyber Layout
+----------------------------------------------------------- */
 .p2-body {
     margin-top: 40px;
     display: grid;
-    grid-template-columns: 320px auto;
+    grid-template-columns: 320px 1fr;
     gap: 35px;
+    animation: fadeUp 0.5s ease-out;
 }
 
-/* Panel Cards */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Panel Cards — 3D neon depth */
 .panel-card {
     background: var(--card);
     border: 1px solid var(--border);
     padding: 20px;
     border-radius: 12px;
-    box-shadow: var(--shadow);
+    box-shadow: 0 0 18px rgba(0,255,255,0.12);
+    transition: 0.25s ease;
 }
 
+.panel-card:hover {
+    border-color: var(--neon);
+    box-shadow: 0 0 25px var(--neon-soft);
+    transform: translateY(-3px);
+}
+
+/* Section titles */
 .panel-title {
     font-size: 18px;
     margin-bottom: 15px;
     font-weight: 600;
     color: var(--neon);
+    text-shadow: 0 0 8px rgba(42,255,255,0.5);
 }
 
 /* -----------------------------------------------------------
    CRIME PILLS
 ----------------------------------------------------------- */
+/* -----------------------------------------------------------
+   CRIME PILLS — Neon Interactive Upgrade
+----------------------------------------------------------- */
 .crime-pills {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
 .cpill {
-    padding: 10px 14px;
-    border-radius: 8px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(20,25,40,0.9), rgba(15,20,30,0.8));
     border: 1px solid var(--border);
-    background: var(--bg2);
     cursor: pointer;
-    transition: 0.25s;
+    transition: 0.25s ease;
+    color: var(--text);
+    font-size: 15px;
+    position: relative;
+    overflow: hidden;
 }
-.cpill.active {
-    background: var(--neon-soft);
-    border-color: var(--neon);
-    color: var(--neon);
-    box-shadow: 0 0 12px var(--neon-soft);
-}
+
+/* Hover glow */
 .cpill:hover {
-    background: rgba(255,255,255,0.05);
+    border-color: var(--neon);
+    box-shadow: 0 0 12px var(--neon-soft);
+    transform: translateX(4px);
+}
+
+/* Active selector — vibrating neon */
+.cpill.active {
+    border-color: var(--neon);
+    background: rgba(40,255,255,0.12);
+    color: var(--neon);
+    box-shadow: 0 0 20px var(--neon-soft);
+    animation: neonPulse 1.3s infinite ease-in-out;
+}
+
+/* Subtle pulse animation */
+@keyframes neonPulse {
+    0%, 100% { box-shadow: 0 0 14px var(--neon-soft); }
+    50% { box-shadow: 0 0 22px var(--neon-soft); }
 }
 
 /* -----------------------------------------------------------
    SELECTORS
 ----------------------------------------------------------- */
+/* -----------------------------------------------------------
+   SELECTORS — Neon Animated Dropdowns
+----------------------------------------------------------- */
 .select-group {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 18px;
 }
 
 .sel-label {
-    margin-bottom: 5px;
+    margin-bottom: 6px;
     color: var(--text-dim);
+    font-size: 14px;
 }
 
+/* Custom select styling */
 select {
     width: 100%;
-    padding: 10px;
-    background: var(--bg2);
+    padding: 12px 14px;
+    background: linear-gradient(135deg, #121626, #0f1424);
     color: var(--text);
     border: 1px solid var(--border);
-    border-radius: 8px;
-}
-select:hover {
-    border-color: var(--neon);
+    border-radius: 10px;
+    outline: none;
+    font-size: 15px;
+    transition: 0.25s ease;
+
+    /* remove default arrow */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    /* custom arrow */
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%238ea0c9' height='20' viewBox='0 0 20 20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5 7l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
 }
 
+/* Hover glow */
+select:hover {
+    border-color: var(--neon);
+    box-shadow: 0 0 10px var(--neon-soft);
+}
+
+/* Focus glow (important) */
+select:focus {
+    border-color: var(--neon);
+    box-shadow: 0 0 15px var(--neon-soft);
+    transform: scale(1.02);
+}
+
+/* Dropdown options (limited styling support) */
+select option {
+    background: #0f1424;
+    color: var(--text);
+}
 /* -----------------------------------------------------------
    SAFETY SCORE CIRCLE
 ----------------------------------------------------------- */
@@ -315,4 +386,111 @@ select:hover {
     .p2-body {
         grid-template-columns: 1fr;
     }
+}
+
+
+
+
+/* -----------------------------------------------------------
+   RIGHT PANEL — Animated Stat Cards
+----------------------------------------------------------- */
+.top-stats {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    flex: 1;
+    padding: 18px 20px;
+    border-radius: 12px;
+    color: white;
+    text-align: center;
+    background: linear-gradient(140deg, rgba(20,25,40,0.9), rgba(12,17,28,0.9));
+    border: 1px solid var(--border);
+    box-shadow: 0 0 15px rgba(0,255,255,0.08);
+    transform: translateY(10px);
+    opacity: 0;
+    animation: statRise 0.5s ease-out forwards;
+}
+
+@keyframes statRise {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.stat-val {
+    font-size: 28px;
+    font-weight: 700;
+}
+.stat-lbl {
+    margin-top: 6px;
+    color: var(--text-dim);
+    font-size: 14px;
+}
+
+/* -----------------------------------------------------------
+   Chart Blocks
+----------------------------------------------------------- */
+.chart-area {
+    margin-top: 25px;
+    padding: 20px;
+    background: var(--card);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+}
+
+.chart-title {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: var(--neon);
+    font-weight: 600;
+}
+
+/* -----------------------------------------------------------
+   Animated Bar Rows
+----------------------------------------------------------- */
+.bar-row {
+    margin-bottom: 14px;
+}
+
+.bar-label {
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: var(--text-dim);
+}
+
+.bar-track {
+    width: 100%;
+    height: 12px;
+    background: #101422;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.bar-fill {
+    height: 100%;
+    background: var(--neon);
+    width: 0;
+    border-radius: 8px;
+    box-shadow: 0 0 12px var(--neon-soft);
+    animation: fillBar 1.1s ease-out forwards;
+    display: flex;
+    align-items: center;
+    padding-left: 6px;
+}
+
+@keyframes fillBar {
+    from { width: 0; }
+    to { width: var(--target-width); }
+}
+
+.bar-num {
+    font-size: 12px;
+    color: #000;
+    font-weight: 700;
 }
